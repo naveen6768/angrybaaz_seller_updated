@@ -1,4 +1,5 @@
-import 'package:angrybaaz_seller/screens/homeOverviewScreen.dart';
+import 'package:angrybaaz_seller/screens/becomePartner.dart';
+
 import 'package:angrybaaz_seller/screens/resetPassword.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -54,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
               email: email, password: password))
           .user;
       if (user.emailVerified) {
-        Navigator.of(context).pushReplacementNamed(HomeOverviewScreen.id);
+        Navigator.of(context).pushReplacementNamed(BecomePartner.id);
       }
     } on PlatformException catch (err) {
       var message = 'An error occurred, pelase check your credentials!';
@@ -193,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 if (user.emailVerified) {
                   return Navigator.of(context).pushNamedAndRemoveUntil(
-                      HomeOverviewScreen.id, (Route<dynamic> route) => false);
+                      BecomePartner.id, (Route<dynamic> route) => false);
                 }
                 if (user.emailVerified == false) {
                   return null;
@@ -426,16 +427,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  // Container(
-                  //   alignment: Alignment.center,
-                  //   child: Text(
-                  //     _success == null
-                  //         ? ''
-                  //         : (_success
-                  //             ? 'Successfully registered ' + _userEmail
-                  //             : 'Registration failed'),
-                  //   ),
-                  // )
                 ],
               ),
             ),

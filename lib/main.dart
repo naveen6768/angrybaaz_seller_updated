@@ -38,18 +38,11 @@ class App extends StatelessWidget {
               primaryColor: Color(0xff671B97),
               scaffoldBackgroundColor: Colors.white,
               cursorColor: Color(0xff671B97),
-              // textTheme: TextTheme(
-              //   bodyText1: TextStyle(
-              //     fontFamily: 'Montserrat',
-              //   ),
-              // ),
             ),
-            initialRoute: BecomePartner.id,
+            initialRoute: LoginScreen.id,
             routes: {
               LoginScreen.id: (context) => LoginScreen(),
               ResetPassword.id: (context) => ResetPassword(),
-
-              // CreatePassword.id: (context) => CreatePassword(),
               HomeOverviewScreen.id: (context) => HomeOverviewScreen(),
               BecomePartner.id: (context) => BecomePartner(),
             },
