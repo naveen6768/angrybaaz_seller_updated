@@ -1,4 +1,4 @@
-package com.example.angrybaaz_seller
+package com.seller.angrybaaz_seller
 
 import io.flutter.embedding.android.FlutterActivity
 

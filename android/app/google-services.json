@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:998325140917:android:aa55266435781014f46dfc",
         "android_client_info": {
-          "package_name": "com.example.angrybaaz"
+          "package_name": "com.seller.angrybaaz"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "998325140917-7i1lj4di8baim26hgr3pvubdldsphkii.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.angrybaaz",
+            "package_name": "com.seller.angrybaaz",
             "certificate_hash": "b303d60bd8f8f108c4dcfccd4cd3c669459b373f"
           }
         },
@@ -47,7 +47,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:998325140917:android:221ce97e9dddd00cf46dfc",
         "android_client_info": {
-          "package_name": "com.example.angrybaaz_seller"
+          "package_name": "com.seller.angrybaaz_seller"
         }
       },
       "oauth_client": [
@@ -55,7 +55,7 @@
           "client_id": "998325140917-1mqv1ouabhlh180djjc9vq31vkj50t7c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.angrybaaz_seller",
+            "package_name": "com.seller.angrybaaz_seller",
             "certificate_hash": "b303d60bd8f8f108c4dcfccd4cd3c669459b373f"
           }
         },

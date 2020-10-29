@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:angrybaaz_seller/screens/homeOverviewScreen.dart';
+import 'package:angrybaaz_seller/screens/homeOverview.dart';
 import 'package:angrybaaz_seller/screens/loginScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geocoder/geocoder.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:lottie/lottie.dart';
+// import 'package:lottie/lottie.dart';
 // import 'package:firebase_storage/firebase_storage.dart';
 
 class BecomePartner extends StatefulWidget {
@@ -327,8 +327,6 @@ class _BecomePartnerState extends State<BecomePartner> {
                               ? _storeData
                                   .collection('sellers')
                                   .doc(_auth.currentUser.email)
-                                  .collection('single_seller')
-                                  .doc('seller_details')
                                   .set({
                                     'email_address': _auth.currentUser.email,
                                     'seller_name': _sellerNameController.text,
@@ -342,13 +340,11 @@ class _BecomePartnerState extends State<BecomePartner> {
                                   .then((value) => Navigator.of(context)
                                       .pushReplacementNamed(
                                           HomeOverviewScreen.id,
-                                          arguments: _shopNameController.text))
+                                          arguments: _auth.currentUser.email))
                                   .catchError((onError) => print(onError))
                               : _storeData
                                   .collection('seller')
                                   .doc(_auth.currentUser.email)
-                                  .collection('single_seller')
-                                  .doc('seller_details')
                                   .set({
                                     'email_address': _auth.currentUser.email,
                                     'seller_name': _sellerNameController.text,
@@ -363,7 +359,7 @@ class _BecomePartnerState extends State<BecomePartner> {
                                   .then((value) => Navigator.of(context)
                                       .pushReplacementNamed(
                                           HomeOverviewScreen.id,
-                                          arguments: _shopNameController.text))
+                                          arguments: _auth.currentUser.email))
                                   .catchError((onError) => print(onError));
 
                           setState(() {

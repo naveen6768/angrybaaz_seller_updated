@@ -1,4 +1,5 @@
 import 'package:angrybaaz_seller/screens/becomePartner.dart';
+import 'package:angrybaaz_seller/screens/homeOverview.dart';
 
 import 'package:angrybaaz_seller/screens/resetPassword.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +56,8 @@ class _LoginScreenState extends State<LoginScreen> {
               email: email, password: password))
           .user;
       if (user.emailVerified) {
-        Navigator.of(context).pushReplacementNamed(BecomePartner.id);
+        Navigator.of(context)
+            .pushReplacementNamed(HomeOverviewScreen.id, arguments: email);
       }
     } on PlatformException catch (err) {
       var message = 'An error occurred, pelase check your credentials!';
