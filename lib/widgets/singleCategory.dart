@@ -6,16 +6,22 @@ class SingleCategory extends StatelessWidget {
 
   final String imageUrl;
   final String categoryLabel;
-  SingleCategory({this.categoryLabel, this.imageUrl});
+  final String sellerEmail;
+  SingleCategory({this.categoryLabel, this.imageUrl, this.sellerEmail});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context)
-            .pushNamed(ItemOverviewScreen.id, arguments: categoryLabel);
+        Navigator.of(context).pushNamed(ItemOverviewScreen.id,
+            arguments: [categoryLabel, sellerEmail]);
       },
       child: Card(
-        elevation: 3.0,
+        elevation: 4.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: const BorderRadius.all(
+            Radius.circular(17.0),
+          ),
+        ),
         child: Wrap(
           // mainAxisSize: MainAxisSize.min,
           children: [

@@ -1,58 +1,92 @@
-// import 'package:angrybaaz_seller/screens/becomePartner.dart';
-// import 'package:flutter/material.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// // import 'package:firebase_storage/firebase_storage.dart';
+import 'package:angrybaaz_seller/screens/addedItemsStore.dart';
+import 'package:angrybaaz_seller/screens/homeOverviews.dart';
+import 'package:angrybaaz_seller/screens/receivedOrdered.dart';
+import 'package:angrybaaz_seller/screens/updateProfile.dart';
+import 'package:angrybaaz_seller/widgets/homeScreenDrawer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
-// class HomeOverviewScreen extends StatefulWidget {
-//   static const id = 'HomeOverviewScreen';
+class HomeOverviewScreen extends StatefulWidget {
+  static const id = 'HomeOverviewScreen';
+  static const kdecoration = InputDecoration(
+    fillColor: Color(0xffF0F0F0),
+    filled: true,
+    hintText: '',
+    contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.white30, width: 1.0),
+      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.black45, width: 2.0),
+      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+    ),
+  );
 
-//   @override
-//   _HomeOverviewScreenState createState() => _HomeOverviewScreenState();
-// }
+  @override
+  _HomeOverviewScreenState createState() => _HomeOverviewScreenState();
+}
 
-// class _HomeOverviewScreenState extends State<HomeOverviewScreen> {
-//   final String _currentUserEmail = FirebaseAuth.instance.currentUser.email;
-// // GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-//   FirebaseFirestore _firestore = FirebaseFirestore.instance;
+class _HomeOverviewScreenState extends State<HomeOverviewScreen> {
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final String shop_name = ModalRoute.of(context).settings.arguments;
-//     return Scaffold(
-//       // key: _drawerKey,
-//       drawer: Drawer(),
-//       appBar: AppBar(
-//         centerTitle: true,
-//         title: Text(
-//           shop_name,
-//           style: TextStyle(
-//             fontFamily: 'Lato',
-//             fontWeight: FontWeight.w800,
-//           ),
-//         ),
-//       ),
-//       body: StreamBuilder(
-//         stream: _firestore
-//             .collection(
-//                 '/seller/${_currentUserEmail.toLowerCase().trim()}/single_seller')
-//             .snapshots(),
-//         builder: (ctx, streamSnapshot) {
-//           if (streamSnapshot.connectionState == ConnectionState.waiting) {
-//             return Center(
-//               child: CircularProgressIndicator(),
-//             );
-//           }
-//           final documents = streamSnapshot.data.documents;
-//           return ListView.builder(
-//             itemCount: documents.length,
-//             itemBuilder: (ctx, index) => Container(
-//               padding: EdgeInsets.all(8),
-//               child: Text(documents[index]['gst_number']),
-//             ),
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
+  int _selectedIndex = 0;
+  String _sellerEmail = FirebaseAuth.instance.currentUser.email;
+  List<Widget> _widgetOptions = <Widget>[
+    HomeOverview(),
+    AddedProductsStore(),
+    ReceivedOrder(),
+    UpdateProfile(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // _sellerEmail = ModalRoute.of(context).settings.arguments;
+    return Scaffold(
+      key: _scaffoldKey,
+      drawer: HomeScreenDrawer(),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('create_store!'),
+      ),
+      body: _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Colors.black,
+        elevation: 8.0,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.store),
+            label: "Store",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.delivery_dining),
+            label: 'Orders',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: 'Profile',
+          ),
+        ],
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+}

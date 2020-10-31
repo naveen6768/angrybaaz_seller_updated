@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:angrybaaz_seller/screens/homeOverview.dart';
+import 'package:angrybaaz_seller/screens/homeOverviewScreen.dart';
 import 'package:angrybaaz_seller/screens/loginScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geocoder/geocoder.dart';

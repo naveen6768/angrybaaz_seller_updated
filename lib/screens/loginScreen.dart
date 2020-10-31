@@ -1,6 +1,5 @@
 import 'package:angrybaaz_seller/screens/becomePartner.dart';
-import 'package:angrybaaz_seller/screens/homeOverview.dart';
-
+import 'package:angrybaaz_seller/screens/homeOverviewScreen.dart';
 import 'package:angrybaaz_seller/screens/resetPassword.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -47,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
   var _authmode = AuthMode.Login;
   FirebaseAuth _auth = FirebaseAuth.instance;
   User user;
-
+  bool _registerErrorToggler = false;
   String ifErrorMsg;
 
   Future<void> signIn(String email, String password, BuildContext ctx) async {
@@ -106,7 +105,9 @@ class _LoginScreenState extends State<LoginScreen> {
           .user;
 
       await user.sendEmailVerification();
-      print('working');
+      setState(() {
+        _registerErrorToggler = true;
+      });
     } on PlatformException catch (err) {
       var message = 'An error occurred, pelase check your credentials!';
 
@@ -365,11 +366,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (_authmode == AuthMode.Signup) {
                           await register(_emailEditingController.text,
                               _passwordEditingController.text, context);
-                          showDialog(
-                            context: context,
-                            builder: (ctx) => showAlert(ctx),
-                            barrierDismissible: false,
-                          );
+                          if (_registerErrorToggler)
+                            showDialog(
+                              context: context,
+                              builder: (ctx) => showAlert(ctx),
+                              barrierDismissible: false,
+                            );
                         }
                       }
                       FocusScope.of(context).unfocus();

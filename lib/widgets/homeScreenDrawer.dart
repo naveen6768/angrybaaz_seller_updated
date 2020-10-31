@@ -5,8 +5,8 @@ import '../components/drawerInkwellButton.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreenDrawer extends StatelessWidget {
-  HomeScreenDrawer(this.sellerEmail);
-  final String sellerEmail;
+  // HomeScreenDrawer(this.sellerEmail);
+  // final String sellerEmail;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -14,7 +14,7 @@ class HomeScreenDrawer extends StatelessWidget {
         color: Theme.of(context).primaryColor,
         child: ListView(
           children: [
-            UserProfileSectionDrawer(sellerEmail),
+            UserProfileSectionDrawer(),
             Center(
               child: DrawerButtons(
                 buttonTitle: 'Home Page',

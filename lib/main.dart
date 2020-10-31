@@ -1,8 +1,10 @@
 import 'package:angrybaaz_seller/screens/becomePartner.dart';
 import 'package:angrybaaz_seller/screens/connection_waiting.dart';
 import 'package:angrybaaz_seller/screens/hasError.dart';
+
 import 'package:angrybaaz_seller/screens/itemOverviewScreen.dart';
-import './screens/homeOverview.dart';
+
+import 'screens/homeOverviewScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import './screens/loginScreen.dart';
@@ -47,6 +49,7 @@ class App extends StatelessWidget {
               HomeOverviewScreen.id: (context) => HomeOverviewScreen(),
               BecomePartner.id: (context) => BecomePartner(),
               ItemOverviewScreen.id: (context) => ItemOverviewScreen(),
+              // ItemAddedScreen.id: (context) => ItemAddedScreen(),
             },
           );
         }
