@@ -10,7 +10,7 @@ class HomeOverview extends StatefulWidget {
 
 class _HomeOverviewState extends State<HomeOverview> {
   FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
-  String _sellerEmail = FirebaseAuth.instance.currentUser.email;
+  // String _sellerEmail = FirebaseAuth.instance.currentUser.email;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,6 @@ class _HomeOverviewState extends State<HomeOverview> {
             itemBuilder: (ctx, index) => SingleCategory(
               categoryLabel: documents[index]['category_name'],
               imageUrl: documents[index]['imageUrl'],
-              sellerEmail: _sellerEmail,
             ),
           ),
         );

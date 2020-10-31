@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:angrybaaz_seller/screens/homeOverviewScreen.dart';
-import 'package:angrybaaz_seller/screens/itemAddedScreen.dart';
+// import 'package:angrybaaz_seller/screens/itemAddedScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 // import 'package:provider/provider.dart';
 
 class ItemOverviewScreen extends StatefulWidget {
@@ -18,25 +19,24 @@ class ItemOverviewScreen extends StatefulWidget {
 
 class _ItemOverviewScreenState extends State<ItemOverviewScreen> {
   bool itemInStock = true;
-  String sellerEmailAddress;
+
   String categoryName;
   PickedFile _image;
   bool _colorToggler = true;
   String _linkGot;
-
+  bool _hiddenToggler = false;
   bool _successMessageToggler = false;
   TextEditingController _materialTypeController = TextEditingController();
   TextEditingController _specificItemTypeController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
-
+  String _sEmail = FirebaseAuth.instance.currentUser.email;
   int _pressCounter = 0;
-
+  FirebaseFirestore _dataStore = FirebaseFirestore.instance;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  FirebaseFirestore _dataStore = FirebaseFirestore.instance;
-
+  bool _switchToggler;
   Future getImage() async {
     PickedFile pickedFile = await _picker.getImage(source: ImageSource.gallery);
 
@@ -77,34 +77,40 @@ class _ItemOverviewScreenState extends State<ItemOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List sellerPrivateData = ModalRoute.of(context).settings.arguments;
-    sellerEmailAddress = sellerPrivateData[1];
-    categoryName = sellerPrivateData[0];
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(categoryName),
-      ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    categoryName = ModalRoute.of(context).settings.arguments;
+    Widget buildSlidingPanel({
+      @required ScrollController scrollController,
+    }) =>
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              padding: EdgeInsets.all(10.0),
+              controller: scrollController,
+              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // StreamBuilder(builder: null)
+                SizedBox(
+                  height: 10.0,
+                ),
                 Center(
-                  child: Text(
-                    ' Add single item of this category ',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 20.0,
-                        backgroundColor: Colors.blue[800]),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xff373a40),
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        ' Add item ',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17.0,
+                          // backgroundColor: Colors.blue[800]
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -328,17 +334,15 @@ class _ItemOverviewScreenState extends State<ItemOverviewScreen> {
                         _dataStore
                             .collection('main_category')
                             .doc(categoryName)
-                            .collection('subscribed_sellers')
-                            .doc(sellerEmailAddress)
+                            .collection(_sEmail)
+                            .doc(_specificItemTypeController.text)
                             .set({
-                          _specificItemTypeController.text: {
-                            'stock_is_available': itemInStock,
-                            'item_imageUrl': _linkGot,
-                            'material_used_in_item':
-                                _materialTypeController.text,
-                            'price_per_piece': _priceController.text,
-                            'item_description': _descriptionController.text,
-                          }
+                          'item_type': _specificItemTypeController.text,
+                          'stock_is_available': itemInStock,
+                          'item_imageUrl': _linkGot,
+                          'material_used_in_item': _materialTypeController.text,
+                          'price_per_piece': _priceController.text,
+                          'item_description': _descriptionController.text,
                         }).then((value) {
                           _scaffoldKey.currentState.showSnackBar(
                             SnackBar(
@@ -349,24 +353,193 @@ class _ItemOverviewScreenState extends State<ItemOverviewScreen> {
                           setState(() {
                             _formKey.currentState.reset();
                           });
-                          // Navigator.of(context)
-                          //     .pushNamed(ItemAddedScreen.id, arguments: [
-                          //   categoryName,
-                          //   sellerEmailAddress,
-                          //   _specificItemTypeController.text
-                          // ]);
                         });
+                        _dataStore
+                            .collection('total_store')
+                            .doc('seller')
+                            .collection(_sEmail)
+                            .doc(_specificItemTypeController.text)
+                            .set({
+                          'is_hidden': _hiddenToggler,
+                          'category_label': categoryName,
+                          'item_type': _specificItemTypeController.text,
+                          'stock_is_available': itemInStock,
+                          'item_imageUrl': _linkGot,
+                          'material_used_in_item': _materialTypeController.text,
+                          'price_per_piece': _priceController.text,
+                          'item_description': _descriptionController.text,
+                        }).then((value) => print('added'));
                         FocusScope.of(context).unfocus();
                       }
                     },
                   ),
                 ),
                 SizedBox(
-                  height: 20.0,
+                  height: 250.0,
                 ),
               ],
             ),
           ),
+        );
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(categoryName),
+      ),
+      body: SlidingUpPanel(
+        // parallaxEnabled: true,
+        backdropEnabled: true,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25.0),
+          topRight: Radius.circular(25.0),
+        ),
+        panelBuilder: (scrollController) => buildSlidingPanel(
+          scrollController: scrollController,
+        ),
+        body: StreamBuilder(
+          stream: _dataStore
+              .collection('main_category')
+              .doc(categoryName)
+              .collection(_sEmail)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            final document = snapshot.data.documents;
+            return ListView.builder(
+                itemCount: document.length,
+                itemBuilder: (context, index) {
+                  _switchToggler = document[index]['stock_is_available'];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      elevation: 6.0,
+                      child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    height: 100.0,
+                                    width: 100.0,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      color: Colors.red,
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(
+                                            document[index]['item_imageUrl']),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10.0,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        'Category type - ${document[index]['item_type']}',
+                                        style: TextStyle(
+                                          color: Color(0xff968c83),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18.0,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Text(
+                                        'Price/piece-  Rs.${document[index]['price_per_piece']}',
+                                        style: TextStyle(
+                                          color: Color(0xff968c83),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18.0,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5.0,
+                                      ),
+                                      Text(
+                                        'Material used - ${document[index]['material_used_in_item']}',
+                                        style: TextStyle(
+                                          color: Color(0xff968c83),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Stock is available?',
+                                    style: TextStyle(
+                                      color: Color(0xff968c83),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Switch(
+                                    activeColor: Colors.lightGreen,
+                                    value: _switchToggler,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _switchToggler = value;
+                                      });
+                                      _dataStore
+                                          .collection('main_category')
+                                          .doc(categoryName)
+                                          .collection(_sEmail)
+                                          .doc(document[index]['item_type'])
+                                          .update(
+                                              {'stock_is_available': value});
+                                      if (!document[index]
+                                          ['stock_is_available']) {
+                                        _dataStore
+                                            .collection('total_store')
+                                            .doc('seller')
+                                            .collection(_sEmail)
+                                            .doc(document[index]['item_type'])
+                                            .update({'is_hidden': false});
+                                      }
+                                      if (document[index]
+                                          ['stock_is_available']) {
+                                        _dataStore
+                                            .collection('total_store')
+                                            .doc('seller')
+                                            .collection(_sEmail)
+                                            .doc(document[index]['item_type'])
+                                            .update({'is_hidden': true});
+                                      }
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                });
+          },
         ),
       ),
     );

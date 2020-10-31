@@ -6,14 +6,14 @@ class SingleCategory extends StatelessWidget {
 
   final String imageUrl;
   final String categoryLabel;
-  final String sellerEmail;
-  SingleCategory({this.categoryLabel, this.imageUrl, this.sellerEmail});
+
+  SingleCategory({this.categoryLabel, this.imageUrl});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(ItemOverviewScreen.id,
-            arguments: [categoryLabel, sellerEmail]);
+        Navigator.of(context)
+            .pushNamed(ItemOverviewScreen.id, arguments: categoryLabel);
       },
       child: Card(
         elevation: 4.0,
