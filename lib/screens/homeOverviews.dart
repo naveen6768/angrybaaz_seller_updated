@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/singleCategory.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeOverview extends StatefulWidget {
   @override
@@ -10,7 +9,6 @@ class HomeOverview extends StatefulWidget {
 
 class _HomeOverviewState extends State<HomeOverview> {
   FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
-  // String _sellerEmail = FirebaseAuth.instance.currentUser.email;
 
   @override
   Widget build(BuildContext context) {

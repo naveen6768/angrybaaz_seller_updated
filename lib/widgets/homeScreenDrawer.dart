@@ -2,11 +2,12 @@ import 'package:angrybaaz_seller/screens/loginScreen.dart';
 import 'package:flutter/material.dart';
 import '../components/userProfileSectionDrawer.dart';
 import '../components/drawerInkwellButton.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreenDrawer extends StatelessWidget {
   // HomeScreenDrawer(this.sellerEmail);
   // final String sellerEmail;
+  final _authInstance = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -64,6 +65,7 @@ class HomeScreenDrawer extends StatelessWidget {
               ),
               onPressed: () {
                 // Navigator.of(co).;
+                _authInstance.signOut();
                 Navigator.of(context).pushReplacementNamed(LoginScreen.id);
                 // await Provider.of<Auth>(context, listen: false).authlogout();
               },

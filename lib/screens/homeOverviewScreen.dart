@@ -3,8 +3,10 @@ import 'package:angrybaaz_seller/screens/homeOverviews.dart';
 import 'package:angrybaaz_seller/screens/receivedOrdered.dart';
 import 'package:angrybaaz_seller/screens/updateProfile.dart';
 import 'package:angrybaaz_seller/widgets/homeScreenDrawer.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
+
+
 
 class HomeOverviewScreen extends StatefulWidget {
   static const id = 'HomeOverviewScreen';
@@ -34,7 +36,7 @@ class _HomeOverviewScreenState extends State<HomeOverviewScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   int _selectedIndex = 0;
-  String _sellerEmail = FirebaseAuth.instance.currentUser.email;
+
   List<Widget> _widgetOptions = <Widget>[
     HomeOverview(),
     AddedProductsStore(),
@@ -50,7 +52,8 @@ class _HomeOverviewScreenState extends State<HomeOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // _sellerEmail = ModalRoute.of(context).settings.arguments;
+
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: HomeScreenDrawer(),

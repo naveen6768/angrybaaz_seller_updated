@@ -48,8 +48,12 @@ class _LoginScreenState extends State<LoginScreen> {
   User user;
   bool _registerErrorToggler = false;
   String ifErrorMsg;
-
+  //forindicator
+  bool _isLoading = false;
   Future<void> signIn(String email, String password, BuildContext ctx) async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
       user = (await _auth.signInWithEmailAndPassword(
               email: email, password: password))
@@ -58,10 +62,16 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.of(context)
             .pushReplacementNamed(HomeOverviewScreen.id, arguments: email);
       }
+      setState(() {
+        _isLoading = false;
+      });
     } on PlatformException catch (err) {
       var message = 'An error occurred, pelase check your credentials!';
 
       if (err.message != null) {
+        setState(() {
+          _isLoading = false;
+        });
         message = err.message;
         _scaffoldKey.currentState.showSnackBar(
           SnackBar(
@@ -73,6 +83,9 @@ class _LoginScreenState extends State<LoginScreen> {
     } on FirebaseAuthException catch (err) {
       var messageTwo = 'password is invalid';
       if (err.message != null) {
+        setState(() {
+          _isLoading = false;
+        });
         messageTwo = err.message;
 
         if (messageTwo ==
@@ -88,6 +101,9 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
     } catch (err) {
+      setState(() {
+        _isLoading = false;
+      });
       _scaffoldKey.currentState.showSnackBar(
         SnackBar(
           content: Text(err),
@@ -99,6 +115,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> register(
       String email, String confirmPassword, BuildContext ctx) async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
       user = (await _auth.createUserWithEmailAndPassword(
               email: email, password: confirmPassword))
@@ -108,10 +127,19 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         _registerErrorToggler = true;
       });
+      setState(() {
+        _isLoading = false;
+      });
     } on PlatformException catch (err) {
       var message = 'An error occurred, pelase check your credentials!';
 
       if (err.message != null) {
+        setState(() {
+          _isLoading = false;
+        });
+        setState(() {
+          _isLoading = false;
+        });
         message = err.message;
         _scaffoldKey.currentState.showSnackBar(
           SnackBar(
@@ -124,9 +152,14 @@ class _LoginScreenState extends State<LoginScreen> {
       var messageTwo = 'password is invalid';
       if (err.message != null) {
         messageTwo = err.message;
-
+        setState(() {
+          _isLoading = false;
+        });
         if (messageTwo ==
             'There is no user record corresponding to this identifier. The user may have been deleted.') {
+          setState(() {
+            _isLoading = false;
+          });
           messageTwo = "The user doesn't exist. Please register to continue!";
         }
       }
@@ -138,6 +171,9 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
     } catch (err) {
+      setState(() {
+        _isLoading = false;
+      });
       _scaffoldKey.currentState.showSnackBar(
         SnackBar(
           content: Text(err),
@@ -191,9 +227,9 @@ class _LoginScreenState extends State<LoginScreen> {
             textColor: Colors.white,
             onPressed: () async {
               try {
-                User user = await _auth.currentUser;
+                User user = _auth.currentUser;
                 await user.reload();
-                user = await _auth.currentUser;
+                user = _auth.currentUser;
 
                 if (user.emailVerified) {
                   return Navigator.of(context).pushNamedAndRemoveUntil(
@@ -384,15 +420,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       width: double.infinity,
                       child: Center(
-                        child: Text(
-                          _authmode == AuthMode.Login ? "Login" : "Register",
-                          style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17.0,
-                            color: Colors.white,
-                          ),
-                        ),
+                        child: _isLoading
+                            ? CircularProgressIndicator(
+                                backgroundColor: Colors.white,
+                              )
+                            : Text(
+                                _authmode == AuthMode.Login
+                                    ? "Login"
+                                    : "Register",
+                                style: TextStyle(
+                                  fontFamily: 'Lato',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17.0,
+                                  color: Colors.white,
+                                ),
+                              ),
                       ),
                     ),
                   ),
