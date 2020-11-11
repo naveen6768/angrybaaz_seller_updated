@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:async';
-import 'package:angrybaaz_seller/screens/homeOverviewScreen.dart';
-// import 'package:angrybaaz_seller/screens/itemAddedScreen.dart';
+import 'package:Angrybaaz_Merchands/screens/homeOverviewScreen.dart';
+// import 'package:Angrybaaz_Merchands/screens/itemAddedScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

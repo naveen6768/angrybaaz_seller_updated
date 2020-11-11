@@ -1,8 +1,8 @@
-import 'package:angrybaaz_seller/screens/becomePartner.dart';
-import 'package:angrybaaz_seller/screens/connection_waiting.dart';
-import 'package:angrybaaz_seller/screens/unAuthoriseUser.dart';
-import 'package:angrybaaz_seller/screens/hasError.dart';
-import 'package:angrybaaz_seller/screens/itemOverviewScreen.dart';
+import 'package:Angrybaaz_Merchands/screens/becomePartner.dart';
+import 'package:Angrybaaz_Merchands/screens/connection_waiting.dart';
+import 'package:Angrybaaz_Merchands/screens/unAuthoriseUser.dart';
+import 'package:Angrybaaz_Merchands/screens/hasError.dart';
+import 'package:Angrybaaz_Merchands/screens/itemOverviewScreen.dart';
 import 'screens/homeOverviewScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

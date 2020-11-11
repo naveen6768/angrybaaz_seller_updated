@@ -1,12 +1,10 @@
-import 'package:angrybaaz_seller/screens/addedItemsStore.dart';
-import 'package:angrybaaz_seller/screens/homeOverviews.dart';
-import 'package:angrybaaz_seller/screens/receivedOrdered.dart';
-import 'package:angrybaaz_seller/screens/updateProfile.dart';
-import 'package:angrybaaz_seller/widgets/homeScreenDrawer.dart';
+import 'package:Angrybaaz_Merchands/screens/addedItemsStore.dart';
+import 'package:Angrybaaz_Merchands/screens/homeOverviews.dart';
+import 'package:Angrybaaz_Merchands/screens/receivedOrdered.dart';
+import 'package:Angrybaaz_Merchands/screens/updateProfile.dart';
+import 'package:Angrybaaz_Merchands/widgets/homeScreenDrawer.dart';
 
 import 'package:flutter/material.dart';
-
-
 
 class HomeOverviewScreen extends StatefulWidget {
   static const id = 'HomeOverviewScreen';
@@ -52,8 +50,6 @@ class _HomeOverviewScreenState extends State<HomeOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       key: _scaffoldKey,
       drawer: HomeScreenDrawer(),

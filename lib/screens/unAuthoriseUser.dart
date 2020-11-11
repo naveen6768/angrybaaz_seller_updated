@@ -1,4 +1,4 @@
-import 'package:angrybaaz_seller/screens/loginScreen.dart';
+import 'package:Angrybaaz_Merchands/screens/loginScreen.dart';
 import 'package:flutter/material.dart';
 
 class UnAuthoriseUser extends StatelessWidget {

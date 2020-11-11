@@ -1,4 +1,4 @@
-# angrybaaz_seller
+# Angrybaaz_Merchands
 
 A new Flutter application.
 

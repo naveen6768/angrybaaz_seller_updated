@@ -1,6 +1,6 @@
-import 'package:angrybaaz_seller/screens/becomePartner.dart';
-import 'package:angrybaaz_seller/screens/homeOverviewScreen.dart';
-import 'package:angrybaaz_seller/screens/resetPassword.dart';
+import 'package:Angrybaaz_Merchands/screens/becomePartner.dart';
+import 'package:Angrybaaz_Merchands/screens/homeOverviewScreen.dart';
+import 'package:Angrybaaz_Merchands/screens/resetPassword.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:firebase_auth/firebase_auth.dart';

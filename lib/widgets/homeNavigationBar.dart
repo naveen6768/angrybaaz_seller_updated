@@ -1,7 +1,7 @@
-import 'package:angrybaaz_seller/screens/addedItemsStore.dart';
-import 'package:angrybaaz_seller/screens/homeOverviewScreen.dart';
-import 'package:angrybaaz_seller/screens/receivedOrdered.dart';
-import 'package:angrybaaz_seller/screens/updateProfile.dart';
+import 'package:Angrybaaz_Merchands/screens/addedItemsStore.dart';
+import 'package:Angrybaaz_Merchands/screens/homeOverviewScreen.dart';
+import 'package:Angrybaaz_Merchands/screens/receivedOrdered.dart';
+import 'package:Angrybaaz_Merchands/screens/updateProfile.dart';
 import 'package:flutter/material.dart';
 
 class NavigationBarBottom extends StatefulWidget {
